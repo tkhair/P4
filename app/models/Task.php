@@ -6,8 +6,8 @@ class Task extends Eloquent {
 		return $this->belongsTo('User');
 	}
 
-	public function list()
+	public function project()
 	{
-		return $this->belongsTo('List');
+		return $this->belongsTo('Project');
 	}
 }

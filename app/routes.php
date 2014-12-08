@@ -15,3 +15,5 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+Route::resource('lists', 'ListsController');
+Route::resource('lists.tasks', 'TasksController');

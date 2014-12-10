@@ -2,6 +2,13 @@
 
 class BaseController extends Controller {
 
+	protected $layout = 'layouts.master';
+
+	public function __construct()
+	{
+		$this->beforeFilter('csrf', array('on' => 'post'));
+	}
+	
 	/**
 	 * Setup the layout used by the controller.
 	 *

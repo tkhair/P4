@@ -1,14 +1,15 @@
 <?php
 
-class ProjectsController extends BaseController {
-	public function index()
+class TasksController extends BaseController {
+	public function index(Project $project)
 	{
-		return View::make('projects.index');
+		$tasks = $project->tasks()->orderBy('created_at', 'DESC')->paginate(10);
+		return View::make('tasks.index', compact('project', 'tasks'));
 	}
 
 	public function create()
 	{
-		return View::make('projects.create');
+		return View::make('tasks.create');
 	}
 
 	public function store()
@@ -18,12 +19,12 @@ class ProjectsController extends BaseController {
 
 	public function show()
 	{
-		return View::make('projects.show');
+		return View::make('tasks.show');
 	}
 
 	public function edit()
 	{
-		return View::make('projects.edit');
+		return View::make('tasks.edit');
 	}
 
 	public function update()

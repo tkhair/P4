@@ -19,9 +19,10 @@ class ProjectsController extends BaseController {
 
 	}
 
-	public function show()
+	public function show(Project $project)
 	{
-		return View::make('projects.show');
+		$tasks = $project->tasks()->orderBy('created_at', 'DESC')->paginate(10);
+		return View::make('projects.show', compact('project', 'tasks'));
 	}
 
 	public function edit()

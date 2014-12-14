@@ -1,4 +1,8 @@
 @extends('layouts.master')
+@section('title')
+Projects list
+@stop
+
 @section('content')
 	<a href="{{ route('projects.create') }}">Create new</a>
 	You have {{ $projects->count() }} projects

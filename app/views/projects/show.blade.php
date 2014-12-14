@@ -1,4 +1,8 @@
 @extends('layouts.master')
+@section('title')
+{{ $project->name }}
+@stop
+
 @section('content')
 	<a href="{{ route('projects.index') }}">All projects</a> | 
 	<a href="{{ route('projects.create') }}">Create new</a>

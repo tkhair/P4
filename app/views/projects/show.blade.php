@@ -8,10 +8,14 @@
 	<a href="{{ route('projects.create') }}">Create new</a>
 	<h1>{{ $project->name }}</h1>
 	<ul>
+		{{ Form::model(new Task, ['route' => ['projects.tasks.store', $project->id]]) }}
+			@include('tasks/partials/_form', ['submit' => 'Create task'])
+		{{ Form::close() }}
+
 		@forelse ( $tasks as $task )
 			<li><a href="{{ route('projects.tasks.show', $project->id, $task->id) }}">{{ $task->name }}</a></li>
 		@empty
-			No tasks. <a href="{{ route('projects.tasks.create', $project->id) }}">Create new task</a>
+			No tasks.
 		@endforelse
 	</ul>
 @stop

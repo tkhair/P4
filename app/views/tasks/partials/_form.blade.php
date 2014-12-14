@@ -6,4 +6,4 @@
 	{{ Form::label('description', 'Task description:') }}
 	{{ Form::textarea('description', null, ['placeholder' => 'Task description', 'class' => 'form-control', 'rows' => 5]) }}
 </div>
-<button type="submit" class="btn btn-default">{{ $submit }}</button>
+<button type="submit" class="btn btn-primary">{{ $submit }}</button>

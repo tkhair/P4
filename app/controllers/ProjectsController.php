@@ -1,6 +1,19 @@
 <?php
 
 class ProjectsController extends BaseController {
+
+	private $_rules = [
+		'name' => ['required', 'min:3'],
+		'user_id' => ['required', 'integer']
+	];
+
+	private $_user_id = null;
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->_user_id = User::first()->id;
+	}
 	
 	public function index()
 	{
@@ -17,17 +30,13 @@ class ProjectsController extends BaseController {
 	public function store()
 	{
 		$input = Input::all();
-		$input['user_id'] = User::first()->id;
-		$validator = Validator::make(
-			$input,
-			[
-				'name' => ['required', 'min:3'],
-				'user_id' => ['required', 'integer']
-			]
-		);
+		$input['user_id'] = $this->_user_id;
+		$validator = Validator::make($input, $this->_rules);
+		
 		if ($validator->passes()){
-			
 			Project::create($input);
+		} else {
+
 		}
 
 		return Redirect::route('projects.index')->with('message', 'Project successfully created');
@@ -39,18 +48,29 @@ class ProjectsController extends BaseController {
 		return View::make('projects.show', compact('project', 'tasks'));
 	}
 
-	public function edit()
+	public function edit(Project $project)
 	{
-		return View::make('projects.edit');
+		return View::make('projects.edit', compact('project'));
 	}
 
-	public function update()
+	public function update(Project $project)
 	{
+		$input = Input::all();
+		$input['user_id'] = $this->_user_id;
+		$validator = Validator::make($input, $this->_rules);
 
+		if($validator->passes()){
+			$project->update($input);
+		} else {
+
+		}
+
+		return Redirect::route('projects.index')->with('message', 'Project "' . $project->name . '" successfully updated');
 	}
 
-	public function destroy()
+	public function destroy(Project $project)
 	{
-
+		$project->delete();
+		return Redirect::route('projects.index')->with('message', 'Project successfully deleted');
 	}
 }

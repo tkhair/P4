@@ -4,8 +4,7 @@ Projects list
 @stop
 
 @section('content')
-	<a href="{{ route('projects.create') }}">Create new</a>
-	You have {{ $projects->count() }} projects
+	<h2>You have {{ $projects->count() }} projects</h2>
 	<ul>
 		@forelse ( $projects as $project )
 			<li><a href="{{ route('projects.show', $project->id) }}">{{ $project->name }}</a></li>

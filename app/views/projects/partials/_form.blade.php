@@ -2,4 +2,4 @@
 	{{ Form::label('name', 'Name:') }}
 	{{ Form::text('name', null, ['placeholder' => 'Project name', 'class' => 'form-control']) }}
 </div>
-<button type="submit" class="btn btn-primary">{{ $submit }}</button>
+{{ Form::submit($submit, ['class' => 'btn btn-primary']) }}

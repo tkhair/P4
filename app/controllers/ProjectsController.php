@@ -13,6 +13,7 @@ class ProjectsController extends BaseController {
 	{
 		parent::__construct();
 		$this->_user_id = User::first()->id;
+		//$this->_user_id = Auth::user()->id;
 	}
 	
 	public function index()

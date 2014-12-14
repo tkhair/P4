@@ -16,8 +16,15 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
+Route::get('login', ['as' => 'login', 'uses' => 'UsersController@login']);
+Route::post('login', ['as' => 'login', 'uses' => 'UsersController@handleLogin']);
+Route::get('logout', ['as' => 'logout', 'uses' => 'UsersController@logout']);
+Route::get('register', ['as' => 'register', 'uses' => 'UsersController@register']);
+
 Route::model('tasks', 'Task');
 Route::model('projects', 'Project');
 
 Route::resource('projects', 'ProjectsController');
 Route::resource('projects.tasks', 'TasksController');
+
+Route::resource('users', 'UsersController');

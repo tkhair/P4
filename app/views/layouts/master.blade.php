@@ -14,6 +14,14 @@
 						<li><a href="{{ route('projects.index') }}">All Projects</a></li>
 						<li><a href="{{ route('projects.create') }}">Create Project</a></li>
 					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						@if (Auth::check())
+							<li><a href="{{ route('logout') }}">Logout</a></li>
+						@else
+							<li><a href="{{ route('login') }}">Login</a></li>
+							<li><a href="{{ route('users.create') }}">Register</a></li>
+						@endif
+					</ul>
 				</div>
 			</div>
 		</nav>

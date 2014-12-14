@@ -16,7 +16,21 @@ class ProjectsController extends BaseController {
 
 	public function store()
 	{
+		$input = Input::all();
+		$input['user_id'] = User::first()->id;
+		$validator = Validator::make(
+			$input,
+			[
+				'name' => ['required', 'min:3'],
+				'user_id' => ['required', 'integer']
+			]
+		);
+		if ($validator->passes()){
+			
+			Project::create($input);
+		}
 
+		return Redirect::route('projects.index')->with('message', 'Project successfully created');
 	}
 
 	public function show(Project $project)

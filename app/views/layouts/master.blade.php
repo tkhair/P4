@@ -1,5 +1,5 @@
 <html>
 	<body>
+		@yield('content')
 	</body>
-	@yield('content')
 </html>

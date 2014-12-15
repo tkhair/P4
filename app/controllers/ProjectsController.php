@@ -36,11 +36,11 @@ class ProjectsController extends BaseController {
 		
 		if ($validator->passes()){
 			Project::create($input);
+			return Redirect::route('projects.index')->with('success_message', 'Project successfully created');
 		} else {
+			return Redirect::route('projects.create')->withInput()->with('error_message', 'Errors while creating project');
 
 		}
-
-		return Redirect::route('projects.index')->with('success_message', 'Project successfully created');
 	}
 
 	public function show(Project $project)
@@ -62,11 +62,11 @@ class ProjectsController extends BaseController {
 
 		if($validator->passes()){
 			$project->update($input);
+			return Redirect::route('projects.index')->with('success_message', 'Project "' . $project->name . '" successfully updated');
 		} else {
-
+			return Redirect::route('projects.edit', $project->id)->withInput()->with('error_message', 'Error updating project "' . $project->name);
 		}
 
-		return Redirect::route('projects.index')->with('success_message', 'Project "' . $project->name . '" successfully updated');
 	}
 
 	public function destroy(Project $project)

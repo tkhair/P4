@@ -11,4 +11,7 @@ Projects list
 		@endforeach
 	</ul>
 	<a href="{{ route('projects.create') }}" class="btn btn-success">Create new</a>
+	<div class="row">
+		{{ $projects->links() }}
+	</div>
 @stop

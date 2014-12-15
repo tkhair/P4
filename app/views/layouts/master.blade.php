@@ -18,8 +18,8 @@
 						<li><a href="{{ route('projects.create') }}"><strong>Create Project</strong></a></li>
 						<li><a href="{{ route('projects.index') }}">All Projects</a></li>
 						@if (Auth::check())
-							<li><a href="">Incomplete tasks</a></li>
-							<li><a href="">Completed tasks</a></li>
+							<li><a href="{{ route('incomplete') }}">Incomplete tasks</a></li>
+							<li><a href="{{ route('completed') }}">Completed tasks</a></li>
 						@endif
 					</ul>
 					<ul class="nav navbar-nav navbar-right">

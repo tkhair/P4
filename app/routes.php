@@ -20,6 +20,9 @@ Route::get('register', ['as' => 'register', 'uses' => 'UsersController@register'
 
 Route::post('ajax/task/{id}/toggle', ['as' => 'toggle-task', 'uses' => 'TasksController@toggle']);
 
+Route::get('tasks/completed', ['as' => 'completed', 'uses' => 'TasksController@completed']);
+Route::get('tasks/incomplete', ['as' => 'incomplete', 'uses' => 'TasksController@incomplete']);
+
 Route::model('tasks', 'Task');
 Route::model('projects', 'Project');
 

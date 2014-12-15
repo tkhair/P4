@@ -6,6 +6,14 @@
 	font-size: 18px;
 }
 
+.task-holder{
+	padding:5px;
+}
+
+.task-holder:hover{
+	background-color:#efefef;
+}
+
 .task-incomplete{
 	font-weight: bold;
 }

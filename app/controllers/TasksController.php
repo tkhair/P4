@@ -37,9 +37,10 @@ class TasksController extends BaseController {
 		
 		if ($validator->passes()){
 			Task::create($input);
+			return Redirect::route('projects.show', $project->id)->with('success_message', 'Task successfully created');
+		} else {
+			return Redirect::route('projects.show', $project->id)->withInput()->with('error_message', 'Error creating task');
 		}
-
-		return Redirect::route('projects.show', $project->id)->with('success_message', 'Task successfully created');
 
 	}
 
@@ -62,11 +63,11 @@ class TasksController extends BaseController {
 
 		if($validator->passes()){
 			$task->update($input);
+			return Redirect::route('projects.show', $project->id)->with('success_message', 'Task "' . $task->name . '" successfully updated');
 		} else {
-
+			return Redirect::route('projects.tasks.edit', [$project->id, $task->id])->withInput()->with('error_message', 'Error editing task "' . $task->name);
 		}
 
-		return Redirect::route('projects.show', $project->id)->with('success_message', 'Task "' . $task->name . '" successfully updated');
 	}
 
 	public function destroy(Project $project, Task $task)
@@ -93,6 +94,18 @@ class TasksController extends BaseController {
 		return Response::json([
 			'task' => $task
 		]);
+	}
+
+	public function incomplete()
+	{
+		$tasks = $this->_user->tasks()->whereNull('completed_at')->paginate(10);
+		return View::make('tasks.incomplete', compact('tasks'));
+	}
+
+	public function completed()
+	{
+		$tasks = $this->_user->tasks()->whereNotNull('completed_at')->paginate(10);
+		return View::make('tasks.completed', compact('tasks'));
 	}
 
 	public function checkAccess($route, $request)

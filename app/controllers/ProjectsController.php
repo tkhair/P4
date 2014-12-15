@@ -8,9 +8,8 @@ class ProjectsController extends BaseController {
 	{
 		$this->beforeFilter('auth');
 
-		if(Auth::check()){
-			$this->_user = Auth::user();
-		}
+		$this->_user = Auth::user();
+	
 		$this->beforeFilter('@checkAccess', ['only' => ['show', 'edit', 'update', 'destroy']]);
 		
 		parent::__construct();

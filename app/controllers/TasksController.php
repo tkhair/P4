@@ -1,6 +1,22 @@
 <?php
 
 class TasksController extends BaseController {
+
+	private $_user = null;
+
+	public function __construct()
+	{
+		$this->beforeFilter('auth');
+
+		if(Auth::check()){
+			$this->_user = Auth::user();
+		}
+		$this->beforeFilter('@checkAccess', ['only' => ['show', 'edit', 'update', 'destroy']]);
+		$this->beforeFilter('ajax', ['only' => ['toggle']]);
+		
+		parent::__construct();
+	}
+
 	public function index(Project $project)
 	{
 		$tasks = $project->tasks()->orderBy('created_at', 'DESC')->paginate(10);
@@ -15,22 +31,15 @@ class TasksController extends BaseController {
 	public function store(Project $project)
 	{
 		$input = Input::all();
-		$input['user_id'] = User::first()->id;
+		$input['user_id'] = $this->_user->id;
 		$input['project_id'] = $project->id;
-		$validator = Validator::make(
-			$input,
-			[
-				'name' => ['required', 'min:3'],
-				'user_id' => ['required', 'integer'],
-				'project_id' => ['required', 'integer'],
-			]
-		);
+		$validator = Validator::make($input, Task::$rules);
+		
 		if ($validator->passes()){
-			
 			Task::create($input);
 		}
 
-		return Redirect::route('projects.tasks.index', $project->id)->with('message', 'Task successfully created');
+		return Redirect::route('projects.show', $project->id)->with('success_message', 'Task successfully created');
 
 	}
 
@@ -52,5 +61,32 @@ class TasksController extends BaseController {
 	public function destroy()
 	{
 		
+	}
+
+	public function toggle($id)
+	{
+		$task = Task::find($id);
+
+		if ($task->project->user_id != $this->_user->id){
+			return Response::make('Unauthorized', 401);
+		}
+
+		if($task->completed_at){
+			$task->completed_at = null;
+		} else {
+			$task->completed_at = new DateTime;
+		}
+		$task->save();
+
+		return Response::json([
+			'task' => $task
+		]);
+	}
+
+	public function checkAccess($route, $request)
+	{
+		if($route->parameter('projects')->user_id != $this->_user->id){
+			return Redirect::route('projects.index')->with('error_message', 'Not allowed');
+		}
 	}
 }

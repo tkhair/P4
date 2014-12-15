@@ -1,0 +1,24 @@
+.task-list{
+	list-style-type: none;
+}
+
+.task-details{
+	margin-left: 20px;
+}
+
+.task{
+	font-size: 18px;
+}
+
+.task-incomplete{
+	font-weight: bold;
+}
+
+.task-completed a{
+	font-weight: normal;
+	color:gray;
+}
+
+.task-timestamps{
+	font: normal 11px verdana, sans-serif;
+}

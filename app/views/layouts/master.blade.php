@@ -3,7 +3,11 @@
 		<title>@yield('title')</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="/css/main.css">
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<script src="/js/main.js"></script>
+		<meta name="_token" content="{{ csrf_token() }}" />
 	</head>	
 	<body>
 		<nav class="navbar navbar-inverse" role="navigation">

@@ -19,3 +19,4 @@ I also added this link to my P1 portfolio
 ## Outside code
 * Bootstrap
 * Laravel
+* jQuery

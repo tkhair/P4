@@ -40,7 +40,7 @@ class ProjectsController extends BaseController {
 
 		}
 
-		return Redirect::route('projects.index')->with('message', 'Project successfully created');
+		return Redirect::route('projects.index')->with('success_message', 'Project successfully created');
 	}
 
 	public function show(Project $project)
@@ -66,20 +66,19 @@ class ProjectsController extends BaseController {
 
 		}
 
-		return Redirect::route('projects.index')->with('message', 'Project "' . $project->name . '" successfully updated');
+		return Redirect::route('projects.index')->with('success_message', 'Project "' . $project->name . '" successfully updated');
 	}
 
 	public function destroy(Project $project)
 	{
-		
 		$project->delete();
-		return Redirect::route('projects.index')->with('message', 'Project successfully deleted');
+		return Redirect::route('projects.index')->with('success_message', 'Project successfully deleted');
 	}
 
 	public function checkAccess($route, $request)
 	{
 		if($route->parameter('projects')->user_id != $this->_user->id){
-			return Redirect::route('projects.index')->with('message', 'Not allowed');
+			return Redirect::route('projects.index')->with('error_message', 'Not allowed');
 		}
 	}
 }

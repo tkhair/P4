@@ -12,16 +12,46 @@
 		<a href="{{ route('projects.edit', $project->id) }}" class="btn btn-warning btn-sm">Edit Project</a>
 		{{ Form::submit('Delete project', ['class' => 'btn btn-danger btn-sm']) }}
 	{{ Form::close() }}
-	<ul>
+	<ul class="task-list">
 		{{ Form::model(new Task, ['route' => ['projects.tasks.store', $project->id]]) }}
 			@include('tasks/partials/_form', ['submit' => 'Create task'])
 		{{ Form::close() }}
 
 		@forelse ( $tasks as $task )
 			<li>
-				<h3>
+				<h3 class="task
+					@if($task->completed_at)
+						task-completed
+					@else
+						task-incomplete
+					@endif
+					"
+					data-task="{{ $task->id }}"
+				>
+					<input type="checkbox" 
+						value="{{ $task->id }}" 
+						data-task-toggle-url="{{ route('toggle-task', $task->id) }}" 
+						@if($task->completed_at)
+							checked="checked"
+						@endif
+					>
 					<a href="{{ route('projects.tasks.show', [$project->id, $task->id]) }}">{{ $task->name }}</a>
 				</h3>
+				<div class="task-details">
+					<p class="task-timestamps">
+						<small>
+							<em>Created:</em> {{ $task->created_at }}
+							<span data-completed-task="{{ $task->id }}"
+								@if(!$task->completed_at)
+									class="hidden"
+								@endif
+							> | <em>Completed:</em> <span data-completed-at="{{ $task->id }}">{{ $task->completed_at }}</span></small></p>
+						</small>
+					</p>
+					@if($task->description)
+						<p class="task-description">{{ $task->description }}</p>
+					@endif	
+				</div>
 			</li>
 		@empty
 			<h2>No tasks</h2>

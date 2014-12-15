@@ -18,6 +18,8 @@ Route::post('login', ['as' => 'login', 'uses' => 'UsersController@handleLogin'])
 Route::get('logout', ['as' => 'logout', 'uses' => 'UsersController@logout']);
 Route::get('register', ['as' => 'register', 'uses' => 'UsersController@register']);
 
+Route::post('ajax/task/{id}/toggle', ['as' => 'toggle-task', 'uses' => 'TasksController@toggle']);
+
 Route::model('tasks', 'Task');
 Route::model('projects', 'Project');
 
@@ -25,3 +27,9 @@ Route::resource('projects', 'ProjectsController');
 Route::resource('projects.tasks', 'TasksController');
 
 Route::resource('users', 'UsersController');
+
+Route::filter('ajax', function(){
+	if (!Request::ajax()){
+		return Response::make('Wrong request type', 401);
+	}
+});

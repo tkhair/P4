@@ -44,7 +44,7 @@ class UsersController extends BaseController {
 				return Redirect::route('projects.index')->with('success_message', 'Registration successfull');
 			}
 		} else {
-			return Redirect::route('users.create')->withInput();
+			return Redirect::route('users.create')->withInput()->with('error_message', 'Error registering new user');
 		}
 	}
 

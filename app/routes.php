@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/', ['as' => 'home', 'uses' => 'ProjectsController@index']);
 
 Route::get('login', ['as' => 'login', 'uses' => 'UsersController@login']);
 Route::post('login', ['as' => 'login', 'uses' => 'UsersController@handleLogin']);

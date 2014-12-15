@@ -1,11 +1,6 @@
 <?php 
 class UsersController extends BaseController {
 
-	private $_rules = [
-		'email' => ['required', 'email'],
-		'password' => ['required', 'min:4']
-	];
-
 	public function login()
 	{
 		return View::make('users.login');
@@ -15,10 +10,10 @@ class UsersController extends BaseController {
 	{
 		$input = Input::only(['email', 'password']);
 
-		if(Auth::attempt(['email' => $input['email'], 'password' => $input['password']])){
-			return Redirect::route('projects.index');
+		if(Auth::attempt(['email' => $input['email'], 'password' => $input['password']], true)){
+			return Redirect::intended('projects')->with('success_message', 'Successfully logged in');
 		} else {
-			return Redirect::route('login')->withInput();
+			return Redirect::route('login')->withInput()->with('error_message', 'Wrong username or password');
 		}
 	}
 
@@ -39,9 +34,10 @@ class UsersController extends BaseController {
 	public function store()
 	{
 		$input = Input::only(['email', 'password']);
-		$validator = Validator::make($input, $this->_rules);
+		$validator = Validator::make($input, User::$rules);
 		
 		if ($validator->passes()){
+			$input['password'] = Hash::make($input['password']);
 			$user = User::create($input);
 			if ($user){
 				Auth::login($user);

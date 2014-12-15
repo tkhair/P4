@@ -2,23 +2,23 @@
 
 class ProjectsController extends BaseController {
 
-	private $_rules = [
-		'name' => ['required', 'min:3'],
-		'user_id' => ['required', 'integer']
-	];
-
-	private $_user_id = null;
+	private $_user = null;
 
 	public function __construct()
 	{
+		$this->beforeFilter('auth');
+
+		if(Auth::check()){
+			$this->_user = Auth::user();
+		}
+		$this->beforeFilter('@checkAccess', ['only' => ['show', 'edit', 'update', 'destroy']]);
+		
 		parent::__construct();
-		$this->_user_id = User::first()->id;
-		//$this->_user_id = Auth::user()->id;
 	}
 	
 	public function index()
 	{
-		$projects = Project::orderBy('created_at', 'DESC')->paginate(10);
+		$projects = $this->_user->projects()->orderBy('created_at', 'DESC')->paginate(10);
 
 		return View::make('projects.index', compact('projects'));
 	}
@@ -31,8 +31,8 @@ class ProjectsController extends BaseController {
 	public function store()
 	{
 		$input = Input::all();
-		$input['user_id'] = $this->_user_id;
-		$validator = Validator::make($input, $this->_rules);
+		$input['user_id'] = $this->_user->id;
+		$validator = Validator::make($input, Project::$rules);
 		
 		if ($validator->passes()){
 			Project::create($input);
@@ -57,8 +57,8 @@ class ProjectsController extends BaseController {
 	public function update(Project $project)
 	{
 		$input = Input::all();
-		$input['user_id'] = $this->_user_id;
-		$validator = Validator::make($input, $this->_rules);
+		$input['user_id'] = $this->_user->id;
+		$validator = Validator::make($input, Project::$rules);
 
 		if($validator->passes()){
 			$project->update($input);
@@ -71,7 +71,15 @@ class ProjectsController extends BaseController {
 
 	public function destroy(Project $project)
 	{
+		
 		$project->delete();
 		return Redirect::route('projects.index')->with('message', 'Project successfully deleted');
+	}
+
+	public function checkAccess($route, $request)
+	{
+		if($route->parameter('projects')->user_id != $this->_user->id){
+			return Redirect::route('projects.index')->with('message', 'Not allowed');
+		}
 	}
 }

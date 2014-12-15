@@ -7,9 +7,10 @@ Projects list
 	<h2>You have {{ $projects->count() }} projects</h2>
 	<ul>
 		@forelse ( $projects as $project )
-			<li><a href="{{ route('projects.show', $project->id) }}">{{ $project->name }}</a></li>
+			<li><h2><a href="{{ route('projects.show', $project->id) }}">{{ $project->name }}</a></h2></li>
 		@empty
-			No projects. <a href="{{ route('projects.create') }}">Create new</a>
+			No projects.
 		@endforelse
 	</ul>
+	<a href="{{ route('projects.create') }}" class="btn btn-success">Create new</a>
 @stop

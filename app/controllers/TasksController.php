@@ -48,19 +48,31 @@ class TasksController extends BaseController {
 		return View::make('tasks.show');
 	}
 
-	public function edit()
+	public function edit(Project $project, Task $task)
 	{
-		return View::make('tasks.edit');
+		return View::make('tasks.edit', compact('project', 'task'));
 	}
 
-	public function update()
+	public function update(Project $project, Task $task)
 	{
+		$input = Input::all();
+		$input['user_id'] = $this->_user->id;
+		$input['project_id'] = $project->id;
+		$validator = Validator::make($input, Task::$rules);
 
+		if($validator->passes()){
+			$task->update($input);
+		} else {
+
+		}
+
+		return Redirect::route('projects.show', $project->id)->with('success_message', 'Task "' . $task->name . '" successfully updated');
 	}
 
-	public function destroy()
+	public function destroy(Project $project, Task $task)
 	{
-		
+		$task->delete();
+		return Redirect::route('projects.show', $project->id)->with('success_message', 'Task successfully deleted');
 	}
 
 	public function toggle($id)

@@ -12,7 +12,7 @@
 		<a href="{{ route('projects.edit', $project->id) }}" class="btn btn-warning btn-sm">Edit Project</a>
 		{{ Form::submit('Delete project', ['class' => 'btn btn-danger btn-sm']) }}
 	{{ Form::close() }}
-	<ul class="task-list">
+	<ul class="task-list list-unstyled">
 		{{ Form::model(new Task, ['route' => ['projects.tasks.store', $project->id]]) }}
 			@include('tasks/partials/_form', ['submit' => 'Create task'])
 		{{ Form::close() }}
@@ -28,14 +28,17 @@
 					"
 					data-task="{{ $task->id }}"
 				>
-					<input type="checkbox" 
-						value="{{ $task->id }}" 
-						data-task-toggle-url="{{ route('toggle-task', $task->id) }}" 
-						@if($task->completed_at)
-							checked="checked"
-						@endif
-					>
-					<a href="{{ route('projects.tasks.show', [$project->id, $task->id]) }}">{{ $task->name }}</a>
+					{{ Form::open(['route' => ['projects.tasks.destroy', $project->id, $task->id], 'method' => 'DELETE', 'class' => 'inline']) }}
+						<input type="checkbox" 
+							value="{{ $task->id }}" 
+							data-task-toggle-url="{{ route('toggle-task', $task->id) }}" 
+							@if($task->completed_at)
+								checked="checked"
+							@endif
+						>
+						<a href="{{ route('projects.tasks.edit', [$project->id, $task->id]) }}">{{ $task->name }}</a>
+						{{ Form::submit('Delete task', ['class' => 'btn btn-danger btn-xs']) }}
+					{{ Form::close() }}
 				</h3>
 				<div class="task-details">
 					<p class="task-timestamps">

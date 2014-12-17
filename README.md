@@ -24,7 +24,7 @@ I also added this link to my P1 portfolio
 ## Background Information
 
 https://github.com/tkhair/P4/blob/master/app/filters.php
-Filter is changed (see strings 84-91) to receive csrf token from AJAX headers, which is added to  https://github.com/tkhair/P4/blob/master/public/js/main.js, which goes there from m,aster template
+Filter is changed (see strings 84-91) to receive csrf token from AJAX headers, which is added to  blob/master/public/js/main.js, which goes there from m,aster template
 This token is required to send POST requests to the server
 
 
@@ -53,6 +53,7 @@ Methods:
 * checkAccess - checks if project is created by user who is logged in, if not then we redirect him to his projects
 
 https://github.com/tkhair/P4/blob/master/app/controllers/TasksController.php
+
 Almost the same logic as projects, with some additions:
 * toggle - method to accept only AJAX POST requests and if taks wan't marked as completed it records current time into completed_at, if task was completed - nulles completed_at field and returns JSON responce for https://github.com/tkhair/P4/blob/master/public/js/main.js
 * incomplete - filters all incomplete tasks (with empty completed_at)
@@ -69,54 +70,12 @@ https://github.com/tkhair/P4/blob/master/app/controllers/UsersController.php
 
 
 https://github.com/tkhair/P4/blob/master/app/models/
-*Each model has $fillable added to set which fields can be changes with form data
-*Array $rules contains validation criterias
+
+* Each model has $fillable added to set which fields can be changes with form data
+* Array $rules contains validation criterias
 
 
 https://github.com/tkhair/P4/blob/master/public/js/main.js
 AJAX for task status chage
 
-
-
-MySQL tables structure
-
-mysql> describe projects;
-+------------+------------------+------+-----+---------------------+----------------+
-| Field      | Type             | Null | Key | Default             | Extra          |
-+------------+------------------+------+-----+---------------------+----------------+
-| id         | int(10) unsigned | NO   | PRI | NULL                | auto_increment |
-| name       | varchar(255)     | NO   |     | NULL                |                |
-| created_at | timestamp        | NO   |     | 0000-00-00 00:00:00 |                |
-| updated_at | timestamp        | NO   |     | 0000-00-00 00:00:00 |                |
-| user_id    | int(10) unsigned | NO   | MUL | NULL                |                |
-| published  | tinyint(1)       | NO   |     | 1                   |                |
-+------------+------------------+------+-----+---------------------+----------------+
-6 rows in set (0.00 sec)
-
-mysql> describe tasks;
-+--------------+------------------+------+-----+---------------------+----------------+
-| Field        | Type             | Null | Key | Default             | Extra          |
-+--------------+------------------+------+-----+---------------------+----------------+
-| id           | int(10) unsigned | NO   | PRI | NULL                | auto_increment |
-| name         | varchar(255)     | NO   |     | NULL                |                |
-| description  | longtext         | YES  |     | NULL                |                |
-| created_at   | timestamp        | NO   |     | 0000-00-00 00:00:00 |                |
-| updated_at   | timestamp        | NO   |     | 0000-00-00 00:00:00 |                |
-| completed_at | datetime         | YES  |     | NULL                |                |
-| user_id      | int(10) unsigned | NO   | MUL | NULL                |                |
-| project_id   | int(10) unsigned | NO   | MUL | NULL                |                |
-+--------------+------------------+------+-----+---------------------+----------------+
-8 rows in set (0.00 sec)
-
-mysql> describe users;
-+----------------+------------------+------+-----+---------------------+----------------+
-| Field          | Type             | Null | Key | Default             | Extra          |
-+----------------+------------------+------+-----+---------------------+----------------+
-| id             | int(10) unsigned | NO   | PRI | NULL                | auto_increment |
-| email          | varchar(255)     | NO   | UNI | NULL                |                |
-| remember_token | varchar(100)     | NO   |     | NULL                |                |
-| password       | varchar(255)     | NO   |     | NULL                |                |
-| created_at     | timestamp        | NO   |     | 0000-00-00 00:00:00 |                |
-| updated_at     | timestamp        | NO   |     | 0000-00-00 00:00:00 |                |
-+----------------+------------------+------+-----+---------------------+----------------+
-6 rows in set (0.00 sec)
+MySQL tables structure http://khair.co/images/tables.png

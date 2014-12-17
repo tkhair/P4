@@ -27,7 +27,7 @@
 							<li><a href="{{ route('logout') }}">Logout</a></li>
 						@else
 							<li><a href="{{ route('login') }}">Login</a></li>
-							<li><a href="{{ route('users.create') }}">Don't have an account?</a></li>
+							<li><a href="{{ route('users.create') }}">Register</a></li>
 						@endif
 					</ul>
 				</div>
